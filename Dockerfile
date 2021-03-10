@@ -2,7 +2,7 @@ FROM node:8.12.0-alpine
 WORKDIR /opt/mre
 
 ENV PORT=80
-ENV BASE_URL=https://mjeff.herokuapp.com
+ENV BASE_URL=https://mjeff.openode.io/
 
 COPY package*.json ./
 RUN ["npm", "install", "--unsafe-perm"]

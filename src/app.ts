@@ -44,7 +44,12 @@ export default class HelloWorld {
 		});
 
 		// Set this item as a Button
-		const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehaviour);
+		const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehavior);
+
+		// Test Button
+		audioButtonBehavior.onClick(_ => {
+			console.log(`clicked`);
+		});
 	}
 
 	/**

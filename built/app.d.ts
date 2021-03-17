@@ -10,10 +10,16 @@ export default class HelloWorld {
     private context;
     private kitItem;
     private assets;
+    private attachments;
     constructor(context: MRE.Context);
     /**
      * Once the context is "started", initialize the app.
      */
     private started;
+    /**
+     * When a user joins, attach something to them.
+     */
+    private userJoined;
+    private userLeft;
 }
 //# sourceMappingURL=app.d.ts.map

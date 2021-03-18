@@ -21,5 +21,9 @@ export default class HelloWorld {
      */
     private userJoined;
     private userLeft;
+    /**
+     * Create kit function called to instantiate upon a button input
+     */
+    private createKit;
 }
 //# sourceMappingURL=app.d.ts.map

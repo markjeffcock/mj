@@ -46,9 +46,15 @@ export default class HelloWorld {
 		// Set this item as a Button
 		const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehavior);
 
+		const audioPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
+		const audioScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
+		const audioRotation: MRE.Quaternion =
+			MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
 		// Test Button
 		audioButtonBehavior.onClick(_ => {
 			console.log(`clicked`);
+			this.createKit("AudioName", "artifact:1695910552020190071",
+				audioPos, audioScale, audioRotation)
 		});
 	}
 
@@ -100,4 +106,24 @@ export default class HelloWorld {
 			this.attachments.delete(user.id);
 		}
 	}
+	/**
+	 * Create kit function called to instantiate upon a button input
+	 */
+	private createKit(name: string, artifactID: string, kitPos: MRE.Vector3,
+		kitScale: MRE.Vector3, kitRotation: MRE.Quaternion): MRE.Actor {
+		return MRE.Actor.CreateFromLibrary(this.context, {
+			resourceId: artifactID,
+			actor: {
+				name: name,
+				transform: {
+					local: {
+						position: kitPos,
+						rotation: kitRotation,
+						scale: kitScale
+					}
+				}
+			}
+		});
+	}
+
 }

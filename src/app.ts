@@ -12,21 +12,8 @@ export default class HelloWorld {
 	private kitItem: MRE.Actor = null;
 	private assets: MRE.AssetContainer;
 
-	//====================
-	// Track which attachments belongs to which user
-	// NOTE: The MRE.Guid will be the ID of the user.  Maps are more efficient with Guids for keys
-	// than they would be with MRE.Users.
-	//====================
-	private attachments = new Map<MRE.Guid, MRE.Actor>();
-
 	constructor(private context: MRE.Context) {
 		this.context.onStarted(() => this.started());
-		this.context.onUserJoined((user) => this.userJoined(user));
-
-		//====================
-		// Set up a userLeft() callback
-		//====================
-		this.context.onUserLeft((user) => this.userLeft(user));
 	}
 
 	/**
@@ -39,60 +26,8 @@ export default class HelloWorld {
 
 		// spawn a copy of a kit item
 		this.kitItem = MRE.Actor.CreateFromLibrary(this.context, {
-			// the number below is the item's artifact id. Button
-			resourceId: 'artifact:1695152330615292136'
+			// the number below is the item's artifact id.
+			resourceId: 'artifact:1498393532493202310'
 		});
-
-		// Set this item as a Button
-		const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehaviour);
-	}
-
-	/**
-	 * When a user joins, attach something to them.
-	 */
-	private userJoined(user: MRE.User) {
-		// print the user's name to the console
-		console.log(`${user.name} joined`);
-
-		// attach an item to the user - a button
-		//====================
-		// Assign the return value of CreateFromLibrary() to a variable.
-		//====================
-		const attachment = MRE.Actor.CreateFromLibrary(
-			this.context,
-			{
-				resourceId: 'artifact:1695152330615292136',
-				actor: {
-					attachment: {
-						attachPoint: 'left-hand',
-						userId: user.id
-					}
-				}
-			}
-		);
-
-		//====================
-		// Associate the attachment with the user in the 'attachments' map.
-		//====================
-		this.attachments.set(user.id, attachment);
-	}
-
-	//====================
-	// When a user leaves, remove the attachment (if any) and destroy it
-	//====================
-	private userLeft(user: MRE.User) {
-		// See if the user has any attachments.
-		if (this.attachments.has(user.id)) {
-			const attachment = this.attachments.get(user.id);
-
-			// Detach the Actor from the user
-			attachment.detach();
-
-			// Destroy the Actor.
-			attachment.destroy();
-
-			// Remove the attachment from the 'attachments' map.
-			this.attachments.delete(user.id);
-		}
 	}
 }

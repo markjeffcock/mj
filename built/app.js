@@ -46,13 +46,9 @@ class HelloWorld {
         });
         // Set this item as a Button
         const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehavior);
-        const audioPos = new MRE.Vector3(0, 0, 0);
-        const audioScale = new MRE.Vector3(1, 1, 1);
-        const audioRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
         // Test Button
         audioButtonBehavior.onClick(_ => {
             console.log(`clicked`);
-            this.createKit("AudioName", "artifact:1695910552020190071", audioPos, audioScale, audioRotation);
         });
     }
     /**
@@ -93,24 +89,6 @@ class HelloWorld {
             // Remove the attachment from the 'attachments' map.
             this.attachments.delete(user.id);
         }
-    }
-    /**
-     * Create kit function called to instantiate upon a button input
-     */
-    createKit(name, artifactID, kitPos, kitScale, kitRotation) {
-        return MRE.Actor.CreateFromLibrary(this.context, {
-            resourceId: artifactID,
-            actor: {
-                name: name,
-                transform: {
-                    local: {
-                        position: kitPos,
-                        rotation: kitRotation,
-                        scale: kitScale
-                    }
-                }
-            }
-        });
     }
 }
 exports.default = HelloWorld;

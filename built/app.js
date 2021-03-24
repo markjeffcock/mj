@@ -44,12 +44,6 @@ class HelloWorld {
             // the number below is the item's artifact id. Button
             resourceId: 'artifact:1695152330615292136'
         });
-        // Set this item as a Button
-        const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehavior);
-        // Test Button
-        audioButtonBehavior.onClick(_ => {
-            console.log(`clicked`);
-        });
     }
     /**
      * When a user joins, attach something to them.

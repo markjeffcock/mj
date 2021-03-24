@@ -53,9 +53,7 @@ export default class HelloWorld {
 		// Test Button
 		audioButtonBehavior.onClick(_ => {
 			console.log(`clicked`);
-			// this was the boar
-			//this.createKit("AudioName", "artifact:1545602115391455543",
-			this.createKit("AudioName", "artifact:1695910552020190071",
+			this.createKit("AudioName", "artifact:1545602115391455543",
 				audioPos, audioScale, audioRotation)
 		});
 	}

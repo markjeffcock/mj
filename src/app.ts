@@ -71,7 +71,9 @@ export default class HelloWorld {
 		//====================
 		// Assign the return value of CreateFromLibrary() to a variable.
 		//====================
-		const wristScale: MRE.Vector3 = new MRE.Vector3(0.3, 0.3, 0.3);
+		const wristScale: MRE.Vector3 = new MRE.Vector3(0.6, 0.6, 0.6);
+		const wristRotation: MRE.Quaternion =
+			MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
 		const attachment = MRE.Actor.CreateFromLibrary(
 			this.context,
 			{
@@ -83,6 +85,7 @@ export default class HelloWorld {
 					},
 					transform: {
 						local: {
+							rotation: wristRotation,
 							scale: wristScale
 						}
 					}

@@ -73,7 +73,7 @@ export default class HelloWorld {
 		//====================
 		const wristScale: MRE.Vector3 = new MRE.Vector3(0.6, 0.6, 0.6);
 		const wristRotation: MRE.Quaternion =
-			MRE.Quaternion.RotationAxis(new MRE.Vector3(1, 0, 0), -180.0 * MRE.DegreesToRadians);
+			MRE.Quaternion.RotationAxis(new MRE.Vector3(0, 1, 0), -180.0 * MRE.DegreesToRadians);
 		const attachment = MRE.Actor.CreateFromLibrary(
 			this.context,
 			{

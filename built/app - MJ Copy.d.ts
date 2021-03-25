@@ -8,19 +8,22 @@ import * as MRE from '@microsoft/mixed-reality-extension-sdk';
  */
 export default class HelloWorld {
     private context;
-    private text;
-    private cube;
+    private kitItem;
     private assets;
+    private attachments;
     constructor(context: MRE.Context);
     /**
      * Once the context is "started", initialize the app.
      */
     private started;
     /**
-     * Generate keyframe data for a simple spin animation.
-     * @param duration The length of time in seconds it takes to complete a full revolution.
-     * @param axis The axis of rotation in local space.
+     * When a user joins, attach something to them.
      */
-    private generateSpinKeyframes;
+    private userJoined;
+    private userLeft;
+    /**
+     * Create kit function called to instantiate upon a button input
+     */
+    private createKit;
 }
-//# sourceMappingURL=app.d.ts.map
+//# sourceMappingURL=app - MJ Copy.d.ts.map

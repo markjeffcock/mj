@@ -7,8 +7,8 @@ module.exports = {
 	"extends": [
 		"eslint:recommended",
 		"plugin:@typescript-eslint/eslint-recommended",
-		//"plugin:@typescript-eslint/recommended"
-		//"plugin:@typescript-eslint/recommended-requiring-type-checking"
+		"plugin:@typescript-eslint/recommended",
+		"plugin:@typescript-eslint/recommended-requiring-type-checking"
 	],
 	"globals": {
 		"Atomics": "readonly",
@@ -26,6 +26,7 @@ module.exports = {
 	],
 	"rules": {
 		"block-spacing": ["warn", "always"],
+		"brace-style": ["warn", "1tbs", {"allowSingleLine": true}],
 		"curly": ["warn", "all"],
 		"default-param-last": "warn",
 		"eol-last": ["warn", "always"],

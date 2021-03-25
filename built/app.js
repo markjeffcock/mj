@@ -68,7 +68,7 @@ class HelloWorld {
         // Assign the return value of CreateFromLibrary() to a variable.
         //====================
         const wristScale = new MRE.Vector3(0.6, 0.6, 0.6);
-        const wristRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Left(), -180.0 * MRE.DegreesToRadians);
+        const wristRotation = MRE.Quaternion.RotationAxis(new MRE.Vector3(1, 0, 0), -180.0 * MRE.DegreesToRadians);
         const attachment = MRE.Actor.CreateFromLibrary(this.context, {
             resourceId: 'artifact:1695152330615292136',
             actor: {

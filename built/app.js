@@ -67,12 +67,18 @@ class HelloWorld {
         //====================
         // Assign the return value of CreateFromLibrary() to a variable.
         //====================
+        const wristScale = new MRE.Vector3(0.3, 0.3, 0.3);
         const attachment = MRE.Actor.CreateFromLibrary(this.context, {
             resourceId: 'artifact:1695152330615292136',
             actor: {
                 attachment: {
                     attachPoint: 'left-hand',
                     userId: user.id
+                },
+                transform: {
+                    local: {
+                        scale: wristScale
+                    }
                 }
             }
         });

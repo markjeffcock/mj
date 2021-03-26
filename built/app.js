@@ -104,6 +104,19 @@ class HelloWorld {
         // Associate the attachment with the user in the 'attachments' map.
         //====================
         this.attachments.set(user.id, attachment);
+        //====================
+        // Set the wrist attachment as a Button
+        //====================
+        const attachButtonBehavior = attachment.setBehavior(MRE.ButtonBehavior);
+        const attachPos = new MRE.Vector3(0, 0, 0);
+        const attachScale = new MRE.Vector3(1, 1, 1);
+        const attachRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
+        // Test Button
+        attachButtonBehavior.onClick(_ => {
+            console.log(`clicked`);
+            //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
+            this.createKit("AudioWrist", `artifact:${this.params.art}`, attachPos, attachScale, attachRotation);
+        });
     }
     //====================
     // When a user leaves, remove the attachment (if any) and destroy it

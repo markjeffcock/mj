@@ -20,10 +20,10 @@ export default class HelloWorld {
 	// Things to do:
 	// a) Hardening initial call
 	// b) Creating sync call
-	// c) Parameterise kit
+	// c) Document
 	// d) Parameterise wrist on/off
 	// e) solve timeout blocking
-	// f) attach wrist button audio
+	// 
 	// g) Write many bumfs audio
 	// h) Adopt Dargon Quaternion solution
 	//====================

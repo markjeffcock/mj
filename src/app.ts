@@ -69,7 +69,7 @@ export default class HelloWorld {
 		audioButtonBehavior.onClick(_ => {
 			console.log(`clicked`);
 			//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-			this.createKit("AudioName", "artifact:"+${this.params.art},
+			this.createKit("AudioName", `artifact:${this.params.art}`,
 				audioPos, audioScale, audioRotation)
 		});
 	}
@@ -138,6 +138,7 @@ export default class HelloWorld {
 	 */
 	private createKit(name: string, artifactID: string, kitPos: MRE.Vector3,
 		kitScale: MRE.Vector3, kitRotation: MRE.Quaternion): MRE.Actor {
+		console.log(`${artifactID} passed`);
 		return MRE.Actor.CreateFromLibrary(this.context, {
 			resourceId: artifactID,
 			actor: {

@@ -16,6 +16,7 @@ const MRE = __importStar(require("@microsoft/mixed-reality-extension-sdk"));
  * The main class of this app. All the logic goes here.
  */
 class HelloWorld {
+    // MJ revised constructor to include parameters
     constructor(context, params) {
         this.context = context;
         this.params = params;
@@ -66,9 +67,8 @@ class HelloWorld {
         // Test Button
         audioButtonBehavior.onClick(_ => {
             console.log(`clicked`);
-            // this was the boar
-            //this.createKit("AudioName", "artifact:1545602115391455543",
-            this.createKit("AudioName", "artifact:1695910552020190071", audioPos, audioScale, audioRotation);
+            //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
+            this.createKit("AudioName", `artifact:${this.params.art}`, audioPos, audioScale, audioRotation);
         });
     }
     /**
@@ -124,6 +124,7 @@ class HelloWorld {
      * Create kit function called to instantiate the audio upon a button input
      */
     createKit(name, artifactID, kitPos, kitScale, kitRotation) {
+        console.log(`${artifactID} passed`);
         return MRE.Actor.CreateFromLibrary(this.context, {
             resourceId: artifactID,
             actor: {

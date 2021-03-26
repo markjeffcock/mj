@@ -16,13 +16,24 @@ const MRE = __importStar(require("@microsoft/mixed-reality-extension-sdk"));
  * The main class of this app. All the logic goes here.
  */
 class HelloWorld {
-    constructor(context) {
+    constructor(context, params) {
         this.context = context;
+        this.params = params;
         this.kitItem = null;
         //====================
         // Track which attachments belongs to which user
         // NOTE: The MRE.Guid will be the ID of the user.  Maps are more efficient with Guids for keys
         // than they would be with MRE.Users.
+        //
+        // Things to do:
+        // a) Hardening initial call
+        // b) Creating sync call
+        // c) Parameterise kit
+        // d) Parameterise wrist on/off
+        // e) solve timeout blocking
+        // f) attach wrist button audio
+        // g) Write many bumfs audio
+        // h) Adopt Dargon Quaternion solution
         //====================
         this.attachments = new Map();
         this.context.onStarted(() => this.started());
@@ -39,6 +50,9 @@ class HelloWorld {
         // set up somewhere to store loaded assets (meshes, textures,
         // animations, gltfs, etc.)
         this.assets = new MRE.AssetContainer(this.context);
+        //Check that debug logic works here
+        console.log(`started`);
+        console.log(`value ${this.params.art}`);
         // spawn a copy of a kit item
         this.kitItem = MRE.Actor.CreateFromLibrary(this.context, {
             // the number below is the item's artifact id. Button
@@ -58,7 +72,7 @@ class HelloWorld {
         });
     }
     /**
-     * When a user joins, attach something to them.
+     * When a user joins, attach a wrist button to them.
      */
     userJoined(user) {
         // print the user's name to the console
@@ -67,8 +81,9 @@ class HelloWorld {
         //====================
         // Assign the return value of CreateFromLibrary() to a variable.
         //====================
-        const wristScale = new MRE.Vector3(0.6, 0.6, 0.6);
-        const wristRotation = MRE.Quaternion.RotationAxis(new MRE.Vector3(1, 0, 0), -180.0 * MRE.DegreesToRadians);
+        const wristScale = new MRE.Vector3(0.4, 0.4, 0.4);
+        const wristPos = new MRE.Vector3(0, 0.02, -0.05);
+        const wristRotation = MRE.Quaternion.RotationAxis(new MRE.Vector3(0, -1, 1), -180.0 * MRE.DegreesToRadians);
         const attachment = MRE.Actor.CreateFromLibrary(this.context, {
             resourceId: 'artifact:1695152330615292136',
             actor: {
@@ -78,6 +93,7 @@ class HelloWorld {
                 },
                 transform: {
                     local: {
+                        position: wristPos,
                         rotation: wristRotation,
                         scale: wristScale
                     }
@@ -105,7 +121,7 @@ class HelloWorld {
         }
     }
     /**
-     * Create kit function called to instantiate upon a button input
+     * Create kit function called to instantiate the audio upon a button input
      */
     createKit(name, artifactID, kitPos, kitScale, kitRotation) {
         return MRE.Actor.CreateFromLibrary(this.context, {

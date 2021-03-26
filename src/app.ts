@@ -29,7 +29,8 @@ export default class HelloWorld {
 	//====================
 	private attachments = new Map<MRE.Guid, MRE.Actor>();
 
-	constructor(private context: MRE.Context) {
+	// MJ revised constructor to include parameters
+	constructor(private context: MRE.Context, private params: MRE.ParameterSet) {
 		this.context.onStarted(() => this.started());
 		this.context.onUserJoined((user) => this.userJoined(user));
 
@@ -47,6 +48,10 @@ export default class HelloWorld {
 		// animations, gltfs, etc.)
 		this.assets = new MRE.AssetContainer(this.context);
 
+		//Check that debug logic works here
+		console.log(`started`);
+		console.log(`value ${this.params.art}`);
+
 		// spawn a copy of a kit item
 		this.kitItem = MRE.Actor.CreateFromLibrary(this.context, {
 			// the number below is the item's artifact id. Button
@@ -63,9 +68,8 @@ export default class HelloWorld {
 		// Test Button
 		audioButtonBehavior.onClick(_ => {
 			console.log(`clicked`);
-			// this was the boar
-			//this.createKit("AudioName", "artifact:1545602115391455543",
-			this.createKit("AudioName", "artifact:1695910552020190071",
+			//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
+			this.createKit("AudioName", "artifact:"+${this.params.art},
 				audioPos, audioScale, audioRotation)
 		});
 	}

@@ -8,21 +8,22 @@ import * as MRE from '@microsoft/mixed-reality-extension-sdk';
  */
 export default class HelloWorld {
     private context;
+    private params;
     private kitItem;
     private assets;
     private attachments;
-    constructor(context: MRE.Context);
+    constructor(context: MRE.Context, params: MRE.ParameterSet);
     /**
      * Once the context is "started", initialize the app.
      */
     private started;
     /**
-     * When a user joins, attach something to them.
+     * When a user joins, attach a wrist button to them.
      */
     private userJoined;
     private userLeft;
     /**
-     * Create kit function called to instantiate upon a button input
+     * Create kit function called to instantiate the audio upon a button input
      */
     private createKit;
 }

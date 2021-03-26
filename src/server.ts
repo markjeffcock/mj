@@ -26,7 +26,8 @@ function runApp() {
 	});
 
 	// Handle new application sessions
-	server.adapter.onConnection(context => new App(context));
+	// MJ - handle params
+	server.adapter.onConnection((context, params) => new App(context, params));
 }
 
 // Check whether code is running in a debuggable watched filesystem

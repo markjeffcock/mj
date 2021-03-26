@@ -33,7 +33,8 @@ function runApp() {
         baseDir: path_1.resolve(__dirname, '../public')
     });
     // Handle new application sessions
-    server.adapter.onConnection(context => new app_1.default(context));
+    // MJ - handle params
+    server.adapter.onConnection((context, params) => new app_1.default(context, params));
 }
 // Check whether code is running in a debuggable watched filesystem
 // environment and if so, delay starting the app by one second to give

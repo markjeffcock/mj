@@ -82,7 +82,7 @@ export default class HelloWorld {
 		// Assign the return value of CreateFromLibrary() to a variable.
 		//====================
 		const wristScale: MRE.Vector3 = new MRE.Vector3(0.4, 0.4, 0.4);
-		const wristPos: MRE.Vector3 = new MRE.Vector3(0.1, 0, 0);
+		const wristPos: MRE.Vector3 = new MRE.Vector3(0, 0.05, 0.02);
 		const wristRotation: MRE.Quaternion =
 			MRE.Quaternion.RotationAxis(new MRE.Vector3(0, -1, 1), -180.0 * MRE.DegreesToRadians);
 		const attachment = MRE.Actor.CreateFromLibrary(

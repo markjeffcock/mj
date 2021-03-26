@@ -16,6 +16,16 @@ export default class HelloWorld {
 	// Track which attachments belongs to which user
 	// NOTE: The MRE.Guid will be the ID of the user.  Maps are more efficient with Guids for keys
 	// than they would be with MRE.Users.
+	//
+	// Things to do:
+	// a) Hardening initial call
+	// b) Creating sync call
+	// c) Parameterise kit
+	// d) Parameterise wrist on/off
+	// e) solve timeout blocking
+	// f) attach wrist button audio
+	// g) Write many bumfs audio
+	// h) Adopt Dargon Quaternion solution
 	//====================
 	private attachments = new Map<MRE.Guid, MRE.Actor>();
 
@@ -61,7 +71,7 @@ export default class HelloWorld {
 	}
 
 	/**
-	 * When a user joins, attach something to them.
+	 * When a user joins, attach a wrist button to them.
 	 */
 	private userJoined(user: MRE.User) {
 		// print the user's name to the console
@@ -73,7 +83,7 @@ export default class HelloWorld {
 		//====================
 		const wristScale: MRE.Vector3 = new MRE.Vector3(0.6, 0.6, 0.6);
 		const wristRotation: MRE.Quaternion =
-			MRE.Quaternion.RotationAxis(new MRE.Vector3(0, 1, 0), -180.0 * MRE.DegreesToRadians);
+			MRE.Quaternion.RotationAxis(new MRE.Vector3(0, 0, 1), -180.0 * MRE.DegreesToRadians);
 		const attachment = MRE.Actor.CreateFromLibrary(
 			this.context,
 			{
@@ -118,7 +128,7 @@ export default class HelloWorld {
 		}
 	}
 	/**
-	 * Create kit function called to instantiate upon a button input
+	 * Create kit function called to instantiate the audio upon a button input
 	 */
 	private createKit(name: string, artifactID: string, kitPos: MRE.Vector3,
 		kitScale: MRE.Vector3, kitRotation: MRE.Quaternion): MRE.Actor {

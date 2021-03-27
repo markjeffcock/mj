@@ -80,6 +80,7 @@ export default class HelloWorld {
 	private userJoined(user: MRE.User) {
 		// print the user's name to the console
 		console.log(`${user.name} joined`);
+		console.log(`${this.params.wrist} wristvalue`);
 
 		// attach an item to the user - a button
 		//====================

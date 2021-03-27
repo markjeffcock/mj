@@ -77,6 +77,7 @@ class HelloWorld {
     userJoined(user) {
         // print the user's name to the console
         console.log(`${user.name} joined`);
+        console.log(`${this.params.wrist} wristvalue`);
         // attach an item to the user - a button
         //====================
         // Assign the return value of CreateFromLibrary() to a variable.
@@ -84,7 +85,7 @@ class HelloWorld {
         //
         // Attach Button for User onto their wrist (if wrist parameter='Y')
         //
-        if (this.params.wrist === 'Y') {
+        if (this.params.wrist === "Y") {
             const wristScale = new MRE.Vector3(0.4, 0.4, 0.4);
             const wristPos = new MRE.Vector3(0, 0.02, -0.05);
             const wristRotation = MRE.Quaternion.RotationAxis(new MRE.Vector3(0, -1, 1), -180.0 * MRE.DegreesToRadians);

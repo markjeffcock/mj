@@ -81,40 +81,40 @@ class HelloWorld {
         //====================
         // Assign the return value of CreateFromLibrary() to a variable.
         //====================
-        const wristScale = new MRE.Vector3(0.4, 0.4, 0.4);
-        const wristPos = new MRE.Vector3(0, 0.02, -0.05);
-        const wristRotation = MRE.Quaternion.RotationAxis(new MRE.Vector3(0, -1, 1), -180.0 * MRE.DegreesToRadians);
-        const attachment = MRE.Actor.CreateFromLibrary(this.context, {
-            resourceId: 'artifact:1695152330615292136',
-            actor: {
-                attachment: {
-                    attachPoint: 'left-hand',
-                    userId: user.id
-                },
-                transform: {
-                    local: {
-                        position: wristPos,
-                        rotation: wristRotation,
-                        scale: wristScale
-                    }
-                }
-            }
-        });
-        //====================
-        // Associate the attachment with the user in the 'attachments' map.
-        //====================
-        this.attachments.set(user.id, attachment);
-        //====================
-        // Set the wrist attachment as a Button
-        //====================
-        const attachButtonBehavior = attachment.setBehavior(MRE.ButtonBehavior);
-        const attachPos = new MRE.Vector3(0, 0, 0);
-        const attachScale = new MRE.Vector3(1, 1, 1);
-        const attachRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
         //
         // Attach Button for User onto their wrist (if wrist parameter='Y')
         //
         if (this.params.wrist === 'Y') {
+            const wristScale = new MRE.Vector3(0.4, 0.4, 0.4);
+            const wristPos = new MRE.Vector3(0, 0.02, -0.05);
+            const wristRotation = MRE.Quaternion.RotationAxis(new MRE.Vector3(0, -1, 1), -180.0 * MRE.DegreesToRadians);
+            const attachment = MRE.Actor.CreateFromLibrary(this.context, {
+                resourceId: 'artifact:1695152330615292136',
+                actor: {
+                    attachment: {
+                        attachPoint: 'left-hand',
+                        userId: user.id
+                    },
+                    transform: {
+                        local: {
+                            position: wristPos,
+                            rotation: wristRotation,
+                            scale: wristScale
+                        }
+                    }
+                }
+            });
+            //====================
+            // Associate the attachment with the user in the 'attachments' map.
+            //====================
+            this.attachments.set(user.id, attachment);
+            //====================
+            // Set the wrist attachment as a Button
+            //====================
+            const attachButtonBehavior = attachment.setBehavior(MRE.ButtonBehavior);
+            const attachPos = new MRE.Vector3(0, 0, 0);
+            const attachScale = new MRE.Vector3(1, 1, 1);
+            const attachRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
             attachButtonBehavior.onClick(_ => {
                 console.log(`clicked`);
                 //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit

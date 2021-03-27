@@ -88,7 +88,7 @@ export default class HelloWorld {
 		//
 		// Attach Button for User onto their wrist (if wrist parameter='Y')
 		//
-		if (this.params.wrist === Y) {
+		if (this.params.wrist === "Y") {
 			const wristScale: MRE.Vector3 = new MRE.Vector3(0.4, 0.4, 0.4);
 			const wristPos: MRE.Vector3 = new MRE.Vector3(0, 0.02, -0.05);
 			const wristRotation: MRE.Quaternion =

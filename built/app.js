@@ -29,10 +29,10 @@ class HelloWorld {
         // Things to do:
         // a) Hardening initial call
         // b) Creating sync call
-        // c) Parameterise kit
+        // c) Document
         // d) Parameterise wrist on/off
         // e) solve timeout blocking
-        // f) attach wrist button audio
+        // f) instantiation of sound for wrist
         // g) Write many bumfs audio
         // h) Adopt Dargon Quaternion solution
         //====================
@@ -111,12 +111,16 @@ class HelloWorld {
         const attachPos = new MRE.Vector3(0, 0, 0);
         const attachScale = new MRE.Vector3(1, 1, 1);
         const attachRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
-        // Test Button
-        attachButtonBehavior.onClick(_ => {
-            console.log(`clicked`);
-            //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-            this.createKit("AudioWrist", `artifact:${this.params.art}`, attachPos, attachScale, attachRotation);
-        });
+        //
+        // Attach Button for User onto their wrist (if wrist parameter='Y')
+        //
+        if (this.params.wrist === 'Y') {
+            attachButtonBehavior.onClick(_ => {
+                console.log(`clicked`);
+                //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
+                this.createKit("AudioWrist", `artifact:${this.params.art}`, attachPos, attachScale, attachRotation);
+            });
+        }
     }
     //====================
     // When a user leaves, remove the attachment (if any) and destroy it

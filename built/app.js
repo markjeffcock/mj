@@ -13,18 +13,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const MRE = __importStar(require("@microsoft/mixed-reality-extension-sdk"));
 /**
- * sleep() function
- * Returns a Promise that resolves after 'ms' milliseconfs, To casue your code to paues for that
- * time, use 'Await(ms)' in an async function
+ * The main class of this app. All the logic goes here.
  */
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-}
-/**
-* The main class of this app. All the logic goes here.
-*/
 class HelloWorld {
     // MJ revised constructor to include parameters
     constructor(context, params) {
@@ -68,6 +58,8 @@ class HelloWorld {
             // the number below is the item's artifact id. Button
             resourceId: 'artifact:1695152330615292136'
         });
+        // old Set this item as a Button
+        //const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehavior);
         // new Set this item as a button
         const audioPos = new MRE.Vector3(0, 0, 0);
         const audioScale = new MRE.Vector3(1, 1, 1);
@@ -80,6 +72,13 @@ class HelloWorld {
             //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
             this.createKit("AudioName", `artifact:${this.params.art}`, audioPos, audioScale, audioRotation);
         }));
+        //old call audioButtonBehavior
+        //audioButtonBehavior.onClick(_ => {
+        //	console.log(`clicked`);
+        //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
+        //	this.createKit("AudioName", `artifact:${this.params.art}`,
+        //		audioPos, audioScale, audioRotation)
+        //});
     }
     /**
      * When a user joins, attach a wrist button to them.
@@ -151,8 +150,7 @@ class HelloWorld {
     /**
      * Create kit function called to instantiate the audio upon a button input
      */
-    async createKit(name, artifactID, kitPos, kitScale, kitRotation) {
-        //kitScale: MRE.Vector3, kitRotation: MRE.Quaternion): MRE.Actor {
+    createKit(name, artifactID, kitPos, kitScale, kitRotation) {
         console.log(`${artifactID} passed`);
         return MRE.Actor.CreateFromLibrary(this.context, {
             resourceId: artifactID,
@@ -167,8 +165,6 @@ class HelloWorld {
                 }
             }
         });
-        // sleep for 5 seconds to reduce double-click issues
-        //await sleep(5000);
     }
 }
 exports.default = HelloWorld;

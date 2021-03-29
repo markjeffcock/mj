@@ -20,7 +20,6 @@ class HelloWorld {
     constructor(context, params) {
         this.context = context;
         this.params = params;
-        this.kitItem = null;
         //====================
         // Track which attachments belongs to which user
         // NOTE: The MRE.Guid will be the ID of the user.  Maps are more efficient with Guids for keys
@@ -55,21 +54,31 @@ class HelloWorld {
         console.log(`started`);
         console.log(`value ${this.params.art}`);
         // spawn a copy of a kit item
-        this.kitItem = MRE.Actor.CreateFromLibrary(this.context, {
+        this.audioButton = MRE.Actor.CreateFromLibrary(this.context, {
             // the number below is the item's artifact id. Button
             resourceId: 'artifact:1695152330615292136'
         });
-        // Set this item as a Button
-        const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehavior);
+        // old Set this item as a Button
+        //const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehavior);
+        // new Set this item as a button
         const audioPos = new MRE.Vector3(0, 0, 0);
         const audioScale = new MRE.Vector3(1, 1, 1);
         const audioRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
         // Test Button
-        audioButtonBehavior.onClick(_ => {
+        //
+        // new Set this item as a button
+        this.audioButton.created().then(() => this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
             console.log(`clicked`);
             //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
             this.createKit("AudioName", `artifact:${this.params.art}`, audioPos, audioScale, audioRotation);
-        });
+        }));
+        //old call audioButtonBehavior
+        //audioButtonBehavior.onClick(_ => {
+        //	console.log(`clicked`);
+        //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
+        //	this.createKit("AudioName", `artifact:${this.params.art}`,
+        //		audioPos, audioScale, audioRotation)
+        //});
     }
     /**
      * When a user joins, attach a wrist button to them.

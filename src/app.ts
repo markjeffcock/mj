@@ -9,7 +9,7 @@ import * as MRE from '@microsoft/mixed-reality-extension-sdk';
  * The main class of this app. All the logic goes here.
  */
 export default class HelloWorld {
-	private kitItem: MRE.Actor = null;
+	//private kitItem: MRE.Actor = null;
 	private assets: MRE.AssetContainer;
 
 	//====================
@@ -28,6 +28,11 @@ export default class HelloWorld {
 	// h) Adopt Dargon Quaternion solution
 	//====================
 	private attachments = new Map<MRE.Guid, MRE.Actor>();
+
+	//====================
+	// AudioButton object
+	//====================
+	private audioButton: MRE.Actor;
 
 	// MJ revised constructor to include parameters
 	constructor(private context: MRE.Context, private params: MRE.ParameterSet) {
@@ -53,25 +58,38 @@ export default class HelloWorld {
 		console.log(`value ${this.params.art}`);
 
 		// spawn a copy of a kit item
-		this.kitItem = MRE.Actor.CreateFromLibrary(this.context, {
+		this.audioButton = MRE.Actor.CreateFromLibrary(this.context, {
 			// the number below is the item's artifact id. Button
 			resourceId: 'artifact:1695152330615292136'
 		});
 
-		// Set this item as a Button
-		const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehavior);
+		// old Set this item as a Button
+		//const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehavior);
+		// new Set this item as a button
 
 		const audioPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
 		const audioScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
 		const audioRotation: MRE.Quaternion =
 			MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
 		// Test Button
-		audioButtonBehavior.onClick(_ => {
+		//
+		// new Set this item as a button
+
+		this.audioButton.created().then(() =>
+			this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
 			console.log(`clicked`);
 			//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
 			this.createKit("AudioName", `artifact:${this.params.art}`,
 				audioPos, audioScale, audioRotation)
-		});
+		}));
+
+		//old call audioButtonBehavior
+		//audioButtonBehavior.onClick(_ => {
+		//	console.log(`clicked`);
+			//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
+		//	this.createKit("AudioName", `artifact:${this.params.art}`,
+		//		audioPos, audioScale, audioRotation)
+		//});
 	}
 
 	/**

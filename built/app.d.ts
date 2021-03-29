@@ -9,9 +9,9 @@ import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 export default class HelloWorld {
     private context;
     private params;
-    private kitItem;
     private assets;
     private attachments;
+    private audioButton;
     constructor(context: MRE.Context, params: MRE.ParameterSet);
     /**
      * Once the context is "started", initialize the app.

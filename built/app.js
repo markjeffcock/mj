@@ -26,7 +26,7 @@ class HelloWorld {
         // than they would be with MRE.Users.
         //
         // Things to do:
-        // a) Hardening initial call
+        // a) Hardening initial call (done?)
         // b) Creating sync call
         // c) Document
         // 
@@ -70,7 +70,7 @@ class HelloWorld {
         this.audioButton.created().then(() => this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
             console.log(`clicked`);
             //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-            this.createKit("AudioName", `artifact:${this.params.art}`, audioPos, audioScale, audioRotation);
+            this.createKit("AudioName", user, `artifact:${this.params.art}`, audioPos, audioScale, audioRotation);
         }));
     }
     /**
@@ -122,7 +122,7 @@ class HelloWorld {
             attachment.created().then(() => attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
                 console.log(`clicked`);
                 //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-                this.createKit("AudioWrist", `artifact:${this.params.art}`, attachPos, attachScale, attachRotation);
+                this.createKit("AudioWrist", user, `artifact:${this.params.art}`, attachPos, attachScale, attachRotation);
             }));
         }
     }
@@ -144,12 +144,13 @@ class HelloWorld {
     /**
      * Create kit function called to instantiate the audio upon a button input
      */
-    createKit(name, artifactID, kitPos, kitScale, kitRotation) {
+    createKit(name, user, artifactID, kitPos, kitScale, kitRotation) {
         console.log(`${artifactID} passed`);
         return MRE.Actor.CreateFromLibrary(this.context, {
             resourceId: artifactID,
             actor: {
                 name: name,
+                parentId: user.id,
                 transform: {
                     local: {
                         position: kitPos,

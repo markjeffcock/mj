@@ -18,7 +18,7 @@ export default class HelloWorld {
 	// than they would be with MRE.Users.
 	//
 	// Things to do:
-	// a) Hardening initial call
+	// a) Hardening initial call (done?)
 	// b) Creating sync call
 	// c) Document
 	// 
@@ -79,7 +79,7 @@ export default class HelloWorld {
 			this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
 				console.log(`clicked`);
 				//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-				this.createKit("AudioName", `artifact:${this.params.art}`,
+				this.createKit("AudioName", user, `artifact:${this.params.art}`,
 					audioPos, audioScale, audioRotation)
 			}));
 	}
@@ -145,7 +145,7 @@ export default class HelloWorld {
 				attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
 					console.log(`clicked`);
 					//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-					this.createKit("AudioWrist", `artifact:${this.params.art}`,
+					this.createKit("AudioWrist", user, `artifact:${this.params.art}`,
 						attachPos, attachScale, attachRotation)
 				}));
 		}
@@ -172,13 +172,14 @@ export default class HelloWorld {
 	/**
 	 * Create kit function called to instantiate the audio upon a button input
 	 */
-	private createKit(name: string, artifactID: string, kitPos: MRE.Vector3,
+	private createKit(name: string, user: MRE.User, artifactID: string, kitPos: MRE.Vector3,
 		kitScale: MRE.Vector3, kitRotation: MRE.Quaternion): MRE.Actor {
 		console.log(`${artifactID} passed`);
 		return MRE.Actor.CreateFromLibrary(this.context, {
 			resourceId: artifactID,
 			actor: {
 				name: name,
+				parentId: user.id,
 				transform: {
 					local: {
 						position: kitPos,

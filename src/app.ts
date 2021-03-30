@@ -126,9 +126,9 @@ export default class HelloWorld {
 			//====================
 			this.attachments.set(user.id, attachment);
 
-			//====================
+			//=====================
 			// Set the wrist attachment as a Button
-			//====================
+			//=====================
 
 			const attachPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
 			//const attachPos: MRE.Vector3 = attachment.transform.local.position;

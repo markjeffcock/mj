@@ -117,6 +117,7 @@ class HelloWorld {
             //====================
             //const attachPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
             const attachPos = attachment.transform.local.position;
+            console.log(`${attachment.transform.local.position} wristposition`);
             const attachScale = new MRE.Vector3(1, 1, 1);
             const attachRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
             // Set this item as a button
@@ -147,10 +148,12 @@ class HelloWorld {
      */
     createKit(name, user, artifactID, kitPos, kitScale, kitRotation) {
         console.log(`${artifactID} passed`);
+        console.log(`${kitPos} poistion passed`);
         return MRE.Actor.CreateFromLibrary(this.context, {
             resourceId: artifactID,
             actor: {
                 name: name,
+                parentId: user.id,
                 transform: {
                     local: {
                         position: kitPos,

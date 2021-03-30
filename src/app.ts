@@ -137,6 +137,7 @@ export default class HelloWorld {
 
 			//const attachPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
 			const attachPos: MRE.Vector3 = attachment.transform.local.position;
+			console.log(`${attachment.transform.local.position} wristposition`);
 			const attachScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
 			const attachRotation: MRE.Quaternion =
 				MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
@@ -176,10 +177,12 @@ export default class HelloWorld {
 	private createKit(name: string, user: MRE.User, artifactID: string, kitPos: MRE.Vector3,
 		kitScale: MRE.Vector3, kitRotation: MRE.Quaternion): MRE.Actor {
 		console.log(`${artifactID} passed`);
+		console.log(`${kitPos} poistion passed`);
 		return MRE.Actor.CreateFromLibrary(this.context, {
 			resourceId: artifactID,
 			actor: {
 				name: name,
+				parentId: user.id,
 				transform: {
 					local: {
 						position: kitPos,

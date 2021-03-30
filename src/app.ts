@@ -63,17 +63,12 @@ export default class HelloWorld {
 			resourceId: 'artifact:1695152330615292136'
 		});
 
-		// old Set this item as a Button
-		//const audioButtonBehavior = this.kitItem.setBehavior(MRE.ButtonBehavior);
 		// new Set this item as a button
 
 		const audioPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
 		const audioScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
 		const audioRotation: MRE.Quaternion =
 			MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
-		// Test Button
-		//
-		// new Set this item as a button
 
 		this.audioButton.created().then(() =>
 			this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
@@ -135,8 +130,8 @@ export default class HelloWorld {
 			// Set the wrist attachment as a Button
 			//====================
 
-			//const attachPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
-			const attachPos: MRE.Vector3 = attachment.transform.local.position;
+			const attachPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
+			//const attachPos: MRE.Vector3 = attachment.transform.local.position;
 			console.log(`${attachment.transform.local.position} wristposition`);
 			const attachScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
 			const attachRotation: MRE.Quaternion =
@@ -178,20 +173,40 @@ export default class HelloWorld {
 		kitScale: MRE.Vector3, kitRotation: MRE.Quaternion): MRE.Actor {
 		console.log(`${artifactID} passed`);
 		console.log(`${kitPos} poistion passed`);
-		return MRE.Actor.CreateFromLibrary(this.context, {
-			resourceId: artifactID,
-			actor: {
-				name: name,
-				parentId: user.id,
-				transform: {
-					local: {
-						position: kitPos,
-						rotation: kitRotation,
-						scale: kitScale
+		// if selected from wrist, audio exclusive to the user.
+		if (name === "AudioWrist") {
+			return MRE.Actor.CreateFromLibrary(this.context, {
+				resourceId: artifactID,
+				actor: {
+					name: name,
+					exclusiveToUser: user.id,
+					parentId: user.id,
+					transform: {
+						local: {
+							position: kitPos,
+							rotation: kitRotation,
+							scale: kitScale
+						}
 					}
 				}
-			}
-		});
+			});
+		} else	{
+			return MRE.Actor.CreateFromLibrary(this.context, {
+				resourceId: artifactID,
+				actor: {
+					name: name,
+					parentId: user.id,
+					transform: {
+						local: {
+							position: kitPos,
+							rotation: kitRotation,
+							scale: kitScale
+						}
+					}
+				}
+			});
+		
+		}
 	}
 
 }

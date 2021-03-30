@@ -179,7 +179,6 @@ export default class HelloWorld {
 			resourceId: artifactID,
 			actor: {
 				name: name,
-				parentId: user.id,
 				transform: {
 					local: {
 						position: kitPos,

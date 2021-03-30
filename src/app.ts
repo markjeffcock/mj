@@ -135,7 +135,8 @@ export default class HelloWorld {
 			// Set the wrist attachment as a Button
 			//====================
 
-			const attachPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
+			//const attachPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
+			const attachPos: MRE.Vector3 = attachment.transform.local.position;
 			const attachScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
 			const attachRotation: MRE.Quaternion =
 				MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);

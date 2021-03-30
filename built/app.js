@@ -29,9 +29,9 @@ class HelloWorld {
         // a) Hardening initial call
         // b) Creating sync call
         // c) Document
-        // d) Parameterise wrist on/off
+        // 
         // e) solve timeout blocking
-        // f) instantiation of sound for wrist
+        // f) instantiation of sound for wrist in many locations
         // g) Write many bumfs audio
         // h) Adopt Dargon Quaternion solution
         //====================
@@ -72,13 +72,6 @@ class HelloWorld {
             //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
             this.createKit("AudioName", `artifact:${this.params.art}`, audioPos, audioScale, audioRotation);
         }));
-        //old call audioButtonBehavior
-        //audioButtonBehavior.onClick(_ => {
-        //	console.log(`clicked`);
-        //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-        //	this.createKit("AudioName", `artifact:${this.params.art}`,
-        //		audioPos, audioScale, audioRotation)
-        //});
     }
     /**
      * When a user joins, attach a wrist button to them.
@@ -95,6 +88,7 @@ class HelloWorld {
         // Attach Button for User onto their wrist (if wrist parameter='Y')
         //
         if (this.params.wrist === "Y") {
+            //	private wristButton: MRE.Actor;
             const wristScale = new MRE.Vector3(0.4, 0.4, 0.4);
             const wristPos = new MRE.Vector3(0, 0.02, -0.05);
             const wristRotation = MRE.Quaternion.RotationAxis(new MRE.Vector3(0, -1, 1), -180.0 * MRE.DegreesToRadians);
@@ -121,15 +115,15 @@ class HelloWorld {
             //====================
             // Set the wrist attachment as a Button
             //====================
-            const attachButtonBehavior = attachment.setBehavior(MRE.ButtonBehavior);
             const attachPos = new MRE.Vector3(0, 0, 0);
             const attachScale = new MRE.Vector3(1, 1, 1);
             const attachRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
-            attachButtonBehavior.onClick(_ => {
+            // Set this item as a button
+            attachment.created().then(() => attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
                 console.log(`clicked`);
                 //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
                 this.createKit("AudioWrist", `artifact:${this.params.art}`, attachPos, attachScale, attachRotation);
-            });
+            }));
         }
     }
     //====================

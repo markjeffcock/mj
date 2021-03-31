@@ -22,8 +22,8 @@ export default class HelloWorld {
 	// b) Creating sync call
 	// c) Document
 	// 
-	// e) solve timeout blocking
-	// f) individual audio for galleries
+	// e) off button for wrist button
+	// f) indivdocument how to use in Galleries
 	// g) Write many bumfs audio
 	// h) Adopt Dargon Quaternion solution
 	//====================

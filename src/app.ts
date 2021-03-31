@@ -58,7 +58,7 @@ export default class HelloWorld {
 
 		//Check that debug logic works here
 		console.log(`started`);
-		console.log(`value ${this.params.art}`);
+		console.log(`value ${this.params.item}`);
 
 		// spawn a copy of a kit item
 		this.audioButton = MRE.Actor.CreateFromLibrary(this.context, {
@@ -76,8 +76,8 @@ export default class HelloWorld {
 		this.audioButton.created().then(() =>
 			this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
 				console.log(`clicked`);
-				//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-				this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.art}`,
+				//uses the parameter ?art=nnn where nnn is an audio item in an Altspace kit
+				this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`,
 					audioPos, audioScale, audioRotation)
 			}));
 	}
@@ -145,7 +145,7 @@ export default class HelloWorld {
 				attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
 					console.log(`clicked`);
 					//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-					this.createKit("AudioWrist", user, `artifact:${this.params.art}`,
+					this.createKit("AudioWrist", user, `artifact:${this.params.item}`,
 						attachPos, attachScale, attachRotation)
 				}));
 		}

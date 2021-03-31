@@ -18,21 +18,24 @@ export default class HelloWorld {
 	// than they would be with MRE.Users.
 	//
 	// Things to do:
-	// a) Hardening initial call (done?)
+	// 
 	// b) Creating sync call
 	// c) Document
 	// 
 	// e) solve timeout blocking
-	// f) instantiation of sound for wrist in many locations
+	// f) individual audio for galleries
 	// g) Write many bumfs audio
 	// h) Adopt Dargon Quaternion solution
 	//====================
 	private attachments = new Map<MRE.Guid, MRE.Actor>();
+	private buttonAlreadyClicked = false;
+	private wristAlreadyclicked = false;
 
 	//====================
-	// AudioButton object
+	// AudioButton objects
 	//====================
 	private audioButton: MRE.Actor;
+	private audioMain: MRE.Actor;
 
 	// MJ revised constructor to include parameters
 	constructor(private context: MRE.Context, private params: MRE.ParameterSet) {
@@ -74,7 +77,7 @@ export default class HelloWorld {
 			this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
 				console.log(`clicked`);
 				//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-				this.createKit("AudioName", user, `artifact:${this.params.art}`,
+				this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.art}`,
 					audioPos, audioScale, audioRotation)
 			}));
 	}
@@ -172,40 +175,46 @@ export default class HelloWorld {
 	private createKit(name: string, user: MRE.User, artifactID: string, kitPos: MRE.Vector3,
 		kitScale: MRE.Vector3, kitRotation: MRE.Quaternion): MRE.Actor {
 		console.log(`${artifactID} passed`);
-		console.log(`${kitPos} poistion passed`);
-		// if selected from wrist, audio exclusive to the user.
-		if (name === "AudioWrist") {
-			return MRE.Actor.CreateFromLibrary(this.context, {
-				resourceId: artifactID,
-				actor: {
-					name: name,
-					exclusiveToUser: user.id,
-					parentId: user.id,
-					transform: {
-						local: {
-							position: kitPos,
-							rotation: kitRotation,
-							scale: kitScale
+		console.log(`${kitPos} position passed`);
+		// If already clicked destory instantiated audio
+		if (this.buttonAlreadyClicked) {
+			this.audioMain.destroy();
+			this.buttonAlreadyClicked = false;
+		}	else {
+			// if selected from wrist, audio exclusive to the user.
+			if (name === "AudioWrist") {
+				return MRE.Actor.CreateFromLibrary(this.context, {
+					resourceId: artifactID,
+					actor: {
+						name: name,
+						exclusiveToUser: user.id,
+						parentId: user.id,
+						transform: {
+							local: {
+								position: kitPos,
+								rotation: kitRotation,
+								scale: kitScale
+							}
 						}
 					}
-				}
-			});
-		} else	{
-			return MRE.Actor.CreateFromLibrary(this.context, {
-				resourceId: artifactID,
-				actor: {
-					name: name,
-					parentId: user.id,
-					transform: {
-						local: {
-							position: kitPos,
-							rotation: kitRotation,
-							scale: kitScale
+				});
+			} else	{
+				this.buttonAlreadyClicked= true;
+				return MRE.Actor.CreateFromLibrary(this.context, {
+					resourceId: artifactID,
+					actor: {
+						name: name,
+						parentId: user.id,
+						transform: {
+							local: {
+								position: kitPos,
+								rotation: kitRotation,
+								scale: kitScale
+							}
 						}
 					}
-				}
-			});
-		
+				});
+			}
 		}
 	}
 

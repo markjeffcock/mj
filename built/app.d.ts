@@ -11,7 +11,10 @@ export default class HelloWorld {
     private params;
     private assets;
     private attachments;
+    private buttonAlreadyClicked;
+    private wristAlreadyclicked;
     private audioButton;
+    private audioMain;
     constructor(context: MRE.Context, params: MRE.ParameterSet);
     /**
      * Once the context is "started", initialize the app.

@@ -38,7 +38,7 @@ export default class HelloWorld {
 	// g) Write many bumfs audio
 	// h) Adopt Dargon Quaternion solution
 	//====================
-	private attachments = new Map<MRE.Guid, MRE.Actor>();
+	private attachments = new Map<MRE.User, MRE.Actor>();
 	private buttonAlreadyClicked = false;
 	private wristAlreadyclicked = false;
 
@@ -143,7 +143,7 @@ export default class HelloWorld {
 			//====================
 			// Associate the attachment with the user in the 'attachments' map.
 			//====================
-			this.attachments.set(user.id, attachment);
+			this.attachments.set(user, attachment);
 
 			//=====================
 			// Set the wrist attachment as a Button
@@ -179,8 +179,8 @@ export default class HelloWorld {
 	//====================
 	private userLeft(user: MRE.User) {
 		// See if the user has any attachments.
-		if (this.attachments.has(user.id)) {
-			const attachment = this.attachments.get(user.id);
+		if (this.attachments.has(user)) {
+			const attachment = this.attachments.get(user);
 
 			// Detach the Actor from the user
 			attachment.detach();
@@ -189,7 +189,7 @@ export default class HelloWorld {
 			attachment.destroy();
 
 			// Remove the attachment from the 'attachments' map.
-			this.attachments.delete(user.id);
+			this.attachments.delete(user);
 		}
 	}
 	/**
@@ -252,7 +252,7 @@ export default class HelloWorld {
 		// The [key, value] syntax breaks each entry of the map into its key and
 		// value automatically.  In the case of 'attachments', the key is the
 		// Guid of the user and the value is the actor/attachment.
-		for (const [userId, attachment] of this.attachments) {
+		for (const [user, attachment] of this.attachments) {
 			// Store the current attachpoint.
 			const attachPoint = attachment.attachment.attachPoint;
 
@@ -260,14 +260,14 @@ export default class HelloWorld {
 			attachment.detach();
 
 			// Reattach to the user
-			attachment.attach(userId, attachPoint);
+			attachment.attach(user.id, attachPoint);
 
 			// Reset the wristattachment as a button 
 			const attachPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
 			const attachScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
 			const attachRotation: MRE.Quaternion =
 				MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
-			console.log(`${userId} in sychronize Attachments`);
+			console.log(`${user.id} in sychronize Attachments`);
 
 			// Set this item as a button (idea: use UserId to pass at this stage?)
 			attachment.created().then(() =>
@@ -277,19 +277,20 @@ export default class HelloWorld {
 					this.createKit("AudioWrist", user, `artifact:${this.params.item}`,
 						attachPos, attachScale, attachRotation)
 				}));
+		
+			console.log(`${user.id} in sychronize Attachments reset main`);
+			// Reset the main item as a button (seemed to only work 50% of time)
+			const audioPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
+			const audioScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
+			const audioRotation: MRE.Quaternion =
+				MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
+			this.audioButton.created().then(() =>
+				this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
+					//uses the parameter ?art=nnn where nnn is an audio item in an Altspace kit
+					this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`,
+						audioPos, audioScale, audioRotation)
+				}));
 		}
-
-		// Reset the main item as a button (seemed to only work 50% of time)
-		const audioPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
-		const audioScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
-		const audioRotation: MRE.Quaternion =
-			MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
-		this.audioButton.created().then(() =>
-			this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
-				//uses the parameter ?art=nnn where nnn is an audio item in an Altspace kit
-				this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`,
-					audioPos, audioScale, audioRotation)
-			}));
 	}
 
 }

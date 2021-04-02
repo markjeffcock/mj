@@ -257,6 +257,19 @@ export default class HelloWorld {
 
 			// Reattach to the user
 			attachment.attach(userId, attachPoint);
+
+			// Reset the main item as a button (seemed to only work 50% of time)
+			const attachPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
+			const attachScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
+			const attachRotation: MRE.Quaternion =
+				MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
+			attachment.created().then(() =>
+				attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
+					console.log(`clicked`);
+					//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
+					this.createKit("AudioWrist", user, `artifact:${this.params.item}`,
+						attachPos, attachScale, attachRotation)
+				}));
 		}
 	}
 

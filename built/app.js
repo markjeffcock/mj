@@ -223,15 +223,25 @@ class HelloWorld {
             attachment.detach();
             // Reattach to the user
             attachment.attach(userId, attachPoint);
-            // Reset the main item as a button (seemed to only work 50% of time)
-            const audioPos = new MRE.Vector3(0, 0, 0);
-            const audioScale = new MRE.Vector3(1, 1, 1);
-            const audioRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
-            this.audioButton.created().then(() => this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
-                //uses the parameter ?art=nnn where nnn is an audio item in an Altspace kit
-                this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`, audioPos, audioScale, audioRotation);
+            // Reset the wristattachment as a button 
+            const attachPos = new MRE.Vector3(0, 0, 0);
+            const attachScale = new MRE.Vector3(1, 1, 1);
+            const attachRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
+            // Set this item as a button
+            attachment.created().then(() => attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
+                console.log(`clicked`);
+                //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
+                this.createKit("AudioWrist", user, `artifact:${this.params.item}`, attachPos, attachScale, attachRotation);
             }));
         }
+        // Reset the main item as a button (seemed to only work 50% of time)
+        const audioPos = new MRE.Vector3(0, 0, 0);
+        const audioScale = new MRE.Vector3(1, 1, 1);
+        const audioRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
+        this.audioButton.created().then(() => this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
+            //uses the parameter ?art=nnn where nnn is an audio item in an Altspace kit
+            this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`, audioPos, audioScale, audioRotation);
+        }));
     }
 }
 exports.default = HelloWorld;

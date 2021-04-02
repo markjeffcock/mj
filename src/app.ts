@@ -258,19 +258,33 @@ export default class HelloWorld {
 			// Reattach to the user
 			attachment.attach(userId, attachPoint);
 
-			// Reset the main item as a button (seemed to only work 50% of time)
-			const audioPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
-			const audioScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
-			const audioRotation: MRE.Quaternion =
+			// Reset the wristattachment as a button 
+			const attachPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
+			const attachScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
+			const attachRotation: MRE.Quaternion =
 				MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
-			this.audioButton.created().then(() =>
-				this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
-					//uses the parameter ?art=nnn where nnn is an audio item in an Altspace kit
-					this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`,
-						audioPos, audioScale, audioRotation)
-				}));
 
+			// Set this item as a button
+			attachment.created().then(() =>
+				attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
+					console.log(`clicked`);
+					//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
+					this.createKit("AudioWrist", user, `artifact:${this.params.item}`,
+						attachPos, attachScale, attachRotation)
+				}));
 		}
+
+		// Reset the main item as a button (seemed to only work 50% of time)
+		const audioPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
+		const audioScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
+		const audioRotation: MRE.Quaternion =
+			MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
+		this.audioButton.created().then(() =>
+			this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
+				//uses the parameter ?art=nnn where nnn is an audio item in an Altspace kit
+				this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`,
+					audioPos, audioScale, audioRotation)
+			}));
 	}
 
 }

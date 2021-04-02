@@ -230,21 +230,26 @@ class HelloWorld {
             const attachScale = new MRE.Vector3(1, 1, 1);
             const attachRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
             console.log(`${user.id} in sychronize Attachments`);
-            // Set this item as a button (idea: use UserId to pass at this stage?)
-            attachment.created().then(() => attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
+            // Set this item as a button (idea: use UserId to pass at this stage?) - can this work without promise
+            //attachment.created().then(() =>
+            attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
                 console.log(`5s click`);
                 //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
                 this.createKit("AudioWrist", user, `artifact:${this.params.item}`, attachPos, attachScale, attachRotation);
-            }));
+                //	}));
+            });
             console.log(`${user.id} in sychronize Attachments reset main`);
             // Reset the main item as a button (seemed to only work 50% of time)
             const audioPos = new MRE.Vector3(0, 0, 0);
             const audioScale = new MRE.Vector3(1, 1, 1);
             const audioRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
-            this.audioButton.created().then(() => this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
+            // can this work without promise ??
+            //this.audioButton.created().then(() =>
+            this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
                 //uses the parameter ?art=nnn where nnn is an audio item in an Altspace kit
                 this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`, audioPos, audioScale, audioRotation);
-            }));
+                //	}));
+            });
         }
     }
 }

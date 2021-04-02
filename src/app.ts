@@ -30,7 +30,7 @@ export default class HelloWorld {
 	//
 	// Things to do:
 	// 
-	// b) Creating sync call
+	// b) [bug] wrist button for 2nd user
 	// 
 	// 
 	// e) off button for wrist button (delay)
@@ -264,7 +264,7 @@ export default class HelloWorld {
 			const attachRotation: MRE.Quaternion =
 				MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
 
-			// Set this item as a button
+			// Set this item as a button (idea: use UserId to pass at this stage?)
 			attachment.created().then(() =>
 				attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
 					console.log(`clicked`);

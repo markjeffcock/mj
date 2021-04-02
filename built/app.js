@@ -37,7 +37,7 @@ class HelloWorld {
         //
         // Things to do:
         // 
-        // b) Creating sync call
+        // b) [bug] wrist button for 2nd user
         // 
         // 
         // e) off button for wrist button (delay)
@@ -141,7 +141,9 @@ class HelloWorld {
         //==========================
         // Let 'syncfix' know a user has joined.
         //==========================
+        console.log(`${user.name} before syncfix`);
         this.syncfix.userJoined();
+        console.log(`${user.name} after syncfix`);
     }
     //====================
     // When a user leaves, remove the attachment (if any) and destroy it
@@ -227,9 +229,10 @@ class HelloWorld {
             const attachPos = new MRE.Vector3(0, 0, 0);
             const attachScale = new MRE.Vector3(1, 1, 1);
             const attachRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
-            // Set this item as a button
+            console.log(`${userId} in sychronize Attachments`);
+            // Set this item as a button (idea: use UserId to pass at this stage?)
             attachment.created().then(() => attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
-                console.log(`clicked`);
+                console.log(`5s click`);
                 //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
                 this.createKit("AudioWrist", user, `artifact:${this.params.item}`, attachPos, attachScale, attachRotation);
             }));

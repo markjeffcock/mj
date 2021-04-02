@@ -169,7 +169,9 @@ export default class HelloWorld {
 		//==========================
 		// Let 'syncfix' know a user has joined.
 		//==========================
+		console.log(`${user.name} before syncfix`);
 		this.syncfix.userJoined();
+		console.log(`${user.name} after syncfix`);
 	}
 
 	//====================
@@ -244,6 +246,8 @@ export default class HelloWorld {
 	// Need to detach and reattach every attachment
 	//==========================
 	private synchronizeAttachments() {
+		
+
 		// Loop through all values in the 'attachments' map
 		// The [key, value] syntax breaks each entry of the map into its key and
 		// value automatically.  In the case of 'attachments', the key is the
@@ -263,11 +267,12 @@ export default class HelloWorld {
 			const attachScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
 			const attachRotation: MRE.Quaternion =
 				MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
+			console.log(`${userId} in sychronize Attachments`);
 
 			// Set this item as a button (idea: use UserId to pass at this stage?)
 			attachment.created().then(() =>
 				attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
-					console.log(`clicked`);
+					console.log(`5s click`);
 					//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
 					this.createKit("AudioWrist", user, `artifact:${this.params.item}`,
 						attachPos, attachScale, attachRotation)

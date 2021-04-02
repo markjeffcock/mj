@@ -4,6 +4,10 @@
  */
 
 import * as MRE from '@microsoft/mixed-reality-extension-sdk';
+//==========================
+// import the sync-fix module.
+//==========================
+import { UserSyncFix } from './sync-fix'
 
 /**
  * The main class of this app. All the logic goes here.
@@ -11,6 +15,13 @@ import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 export default class HelloWorld {
 	//private kitItem: MRE.Actor = null;
 	private assets: MRE.AssetContainer;
+
+	//==========================
+	// Declare a syncfix attribute to handle the synchronization fixes.
+	// In this case, syncfix will call the synchronization functions
+	// no more than once every 5000 ms (5 sec).
+	//==========================
+	private syncfix = new UserSyncFix(5000);
 
 	//====================
 	// Track which attachments belongs to which user
@@ -20,10 +31,10 @@ export default class HelloWorld {
 	// Things to do:
 	// 
 	// b) Creating sync call
-	// c) Document
 	// 
-	// e) off button for wrist button
-	// f) indivdocument how to use in Galleries
+	// 
+	// e) off button for wrist button (delay)
+	// f) document how to use in Galleries
 	// g) Write many bumfs audio
 	// h) Adopt Dargon Quaternion solution
 	//====================
@@ -80,6 +91,11 @@ export default class HelloWorld {
 				this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`,
 					audioPos, audioScale, audioRotation)
 			}));
+
+		//==========================
+		// Set up the synchronization function
+		//==========================
+		this.syncfix.addSyncFunc(() => this.synchronizeAttachments());
 	}
 
 	/**
@@ -149,6 +165,11 @@ export default class HelloWorld {
 						attachPos, attachScale, attachRotation)
 				}));
 		}
+
+		//==========================
+		// Let 'syncfix' know a user has joined.
+		//==========================
+		this.syncfix.userJoined();
 	}
 
 	//====================
@@ -215,6 +236,27 @@ export default class HelloWorld {
 					}
 				});
 			}
+		}
+	}
+
+	//==========================
+	// Synchronization function for attachments
+	// Need to detach and reattach every attachment
+	//==========================
+	private synchronizeAttachments() {
+		// Loop through all values in the 'attachments' map
+		// The [key, value] syntax breaks each entry of the map into its key and
+		// value automatically.  In the case of 'attachments', the key is the
+		// Guid of the user and the value is the actor/attachment.
+		for (const [userId, attachment] of this.attachments) {
+			// Store the current attachpoint.
+			const attachPoint = attachment.attachment.attachPoint;
+
+			// Detach from the user
+			attachment.detach();
+
+			// Reattach to the user
+			attachment.attach(userId, attachPoint);
 		}
 	}
 

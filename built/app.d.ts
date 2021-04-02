@@ -10,6 +10,7 @@ export default class HelloWorld {
     private context;
     private params;
     private assets;
+    private syncfix;
     private attachments;
     private buttonAlreadyClicked;
     private wristAlreadyclicked;
@@ -29,5 +30,6 @@ export default class HelloWorld {
      * Create kit function called to instantiate the audio upon a button input
      */
     private createKit;
+    private synchronizeAttachments;
 }
 //# sourceMappingURL=app.d.ts.map

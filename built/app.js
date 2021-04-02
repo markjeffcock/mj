@@ -12,6 +12,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const MRE = __importStar(require("@microsoft/mixed-reality-extension-sdk"));
+//==========================
+// import the sync-fix module.
+//==========================
+const sync_fix_1 = require("./sync-fix");
 /**
  * The main class of this app. All the logic goes here.
  */
@@ -20,6 +24,12 @@ class HelloWorld {
     constructor(context, params) {
         this.context = context;
         this.params = params;
+        //==========================
+        // Declare a syncfix attribute to handle the synchronization fixes.
+        // In this case, syncfix will call the synchronization functions
+        // no more than once every 5000 ms (5 sec).
+        //==========================
+        this.syncfix = new sync_fix_1.UserSyncFix(5000);
         //====================
         // Track which attachments belongs to which user
         // NOTE: The MRE.Guid will be the ID of the user.  Maps are more efficient with Guids for keys
@@ -28,10 +38,10 @@ class HelloWorld {
         // Things to do:
         // 
         // b) Creating sync call
-        // c) Document
         // 
-        // e) solve timeout blocking
-        // f) individual audio for galleries
+        // 
+        // e) off button for wrist button (delay)
+        // f) document how to use in Galleries
         // g) Write many bumfs audio
         // h) Adopt Dargon Quaternion solution
         //====================
@@ -54,7 +64,7 @@ class HelloWorld {
         this.assets = new MRE.AssetContainer(this.context);
         //Check that debug logic works here
         console.log(`started`);
-        console.log(`value ${this.params.art}`);
+        console.log(`value ${this.params.item}`);
         // spawn a copy of a kit item
         this.audioButton = MRE.Actor.CreateFromLibrary(this.context, {
             // the number below is the item's artifact id. Button
@@ -66,9 +76,13 @@ class HelloWorld {
         const audioRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
         this.audioButton.created().then(() => this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
             console.log(`clicked`);
-            //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-            this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.art}`, audioPos, audioScale, audioRotation);
+            //uses the parameter ?art=nnn where nnn is an audio item in an Altspace kit
+            this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`, audioPos, audioScale, audioRotation);
         }));
+        //==========================
+        // Set up the synchronization function
+        //==========================
+        this.syncfix.addSyncFunc(() => this.synchronizeAttachments());
     }
     /**
      * When a user joins, attach a wrist button to them.
@@ -121,9 +135,13 @@ class HelloWorld {
             attachment.created().then(() => attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
                 console.log(`clicked`);
                 //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-                this.createKit("AudioWrist", user, `artifact:${this.params.art}`, attachPos, attachScale, attachRotation);
+                this.createKit("AudioWrist", user, `artifact:${this.params.item}`, attachPos, attachScale, attachRotation);
             }));
         }
+        //==========================
+        // Let 'syncfix' know a user has joined.
+        //==========================
+        this.syncfix.userJoined();
     }
     //====================
     // When a user leaves, remove the attachment (if any) and destroy it
@@ -187,6 +205,24 @@ class HelloWorld {
                     }
                 });
             }
+        }
+    }
+    //==========================
+    // Synchronization function for attachments
+    // Need to detach and reattach every attachment
+    //==========================
+    synchronizeAttachments() {
+        // Loop through all values in the 'attachments' map
+        // The [key, value] syntax breaks each entry of the map into its key and
+        // value automatically.  In the case of 'attachments', the key is the
+        // Guid of the user and the value is the actor/attachment.
+        for (const [userId, attachment] of this.attachments) {
+            // Store the current attachpoint.
+            const attachPoint = attachment.attachment.attachPoint;
+            // Detach from the user
+            attachment.detach();
+            // Reattach to the user
+            attachment.attach(userId, attachPoint);
         }
     }
 }

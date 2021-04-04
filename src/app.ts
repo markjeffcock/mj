@@ -236,6 +236,7 @@ export default class HelloWorld {
 								}
 							}						
 						});
+					}
 				}
 			} else	{
 				this.buttonAlreadyClicked= true;
@@ -259,7 +260,7 @@ export default class HelloWorld {
 	}
 
 
-	}
+	//}
 	//==========================
 	// Synchronization function for attachments
 	// Need to detach and reattach every attachment
@@ -293,7 +294,7 @@ export default class HelloWorld {
 				attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
 					console.log(`5s click`);
 					//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-					this.createKit("AudioWrist", user, `artifact:${this.params.item}`,
+					this.audioWrist = this.createKit("AudioWrist", user, `artifact:${this.params.item}`,
 						attachPos, attachScale, attachRotation)
 				}));
 			//	});

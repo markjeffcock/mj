@@ -204,27 +204,28 @@ class HelloWorld {
                         });
                     }
                 }
-                else {
-                    this.buttonAlreadyClicked = true;
-                    console.log(`debug 4`);
-                    return MRE.Actor.CreateFromLibrary(this.context, {
-                        resourceId: artifactID,
-                        actor: {
-                            name: name,
-                            parentId: user.id,
-                            transform: {
-                                local: {
-                                    position: kitPos,
-                                    rotation: kitRotation,
-                                    scale: kitScale
-                                }
+            }
+            else {
+                this.buttonAlreadyClicked = true;
+                console.log(`debug 4`);
+                return MRE.Actor.CreateFromLibrary(this.context, {
+                    resourceId: artifactID,
+                    actor: {
+                        name: name,
+                        parentId: user.id,
+                        transform: {
+                            local: {
+                                position: kitPos,
+                                rotation: kitRotation,
+                                scale: kitScale
                             }
                         }
-                    });
-                }
+                    }
+                });
             }
         }
     }
+    //}
     //==========================
     // Synchronization function for attachments
     // Need to detach and reattach every attachment
@@ -250,7 +251,7 @@ class HelloWorld {
             attachment.created().then(() => attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
                 console.log(`5s click`);
                 //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-                this.createKit("AudioWrist", user, `artifact:${this.params.item}`, attachPos, attachScale, attachRotation);
+                this.audioWrist = this.createKit("AudioWrist", user, `artifact:${this.params.item}`, attachPos, attachScale, attachRotation);
             }));
             //	});
             console.log(`${user.id} in sychronize Attachments reset main`);

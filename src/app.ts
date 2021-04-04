@@ -46,6 +46,7 @@ export default class HelloWorld {
 	//====================
 	private audioButton: MRE.Actor;
 	private audioMain: MRE.Actor;
+	private audioWrist: MRE.Actor;
 
 	// MJ revised constructor to include parameters
 	constructor(private context: MRE.Context, private params: MRE.ParameterSet) {
@@ -164,7 +165,7 @@ export default class HelloWorld {
 				attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
 					console.log(`clicked`);
 					//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-					this.createKit("AudioWrist", user, `artifact:${this.params.item}`,
+					this.audioWrist = this.createKit("AudioWrist", user, `artifact:${this.params.item}`,
 						attachPos, attachScale, attachRotation)
 				}));
 		}
@@ -208,22 +209,31 @@ export default class HelloWorld {
 			this.buttonAlreadyClicked = false;
 		}	else {
 			// if selected from wrist, audio exclusive to the user.
+			// check to see if already clicked
 			if (name === "AudioWrist") {
-				return MRE.Actor.CreateFromLibrary(this.context, {
-					resourceId: artifactID,
-					actor: {
-						name: name,
-						exclusiveToUser: user.id,
-						parentId: user.id,
-						transform: {
-							local: {
-								position: kitPos,
-								rotation: kitRotation,
-								scale: kitScale
-							}
-						}
-					}
-				});
+				if (this.attachments.has(user)) {
+					const attachment = this.attachments.get(user);
+						if (attachment.grabbable) {
+							this.audioWrist.destroy();
+							attachment.grabbable = false;
+						}	else {
+						attachment.grabbable = true;
+						return MRE.Actor.CreateFromLibrary(this.context, {
+							resourceId: artifactID,
+							actor: {
+								name: name,
+								exclusiveToUser: user.id,
+								parentId: user.id,
+								transform: {
+									local: {
+										position: kitPos,
+										rotation: kitRotation,
+										scale: kitScale
+									}
+								}
+							}						
+						});
+				}
 			} else	{
 				this.buttonAlreadyClicked= true;
 				return MRE.Actor.CreateFromLibrary(this.context, {
@@ -244,6 +254,8 @@ export default class HelloWorld {
 		}
 	}
 
+
+	}
 	//==========================
 	// Synchronization function for attachments
 	// Need to detach and reattach every attachment

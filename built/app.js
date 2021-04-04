@@ -136,7 +136,7 @@ class HelloWorld {
             attachment.created().then(() => attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
                 console.log(`clicked`);
                 //uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
-                this.createKit("AudioWrist", user, `artifact:${this.params.item}`, attachPos, attachScale, attachRotation);
+                this.audioWrist = this.createKit("AudioWrist", user, `artifact:${this.params.item}`, attachPos, attachScale, attachRotation);
             }));
         }
         //==========================
@@ -174,39 +174,50 @@ class HelloWorld {
         }
         else {
             // if selected from wrist, audio exclusive to the user.
+            // check to see if already clicked
             if (name === "AudioWrist") {
-                return MRE.Actor.CreateFromLibrary(this.context, {
-                    resourceId: artifactID,
-                    actor: {
-                        name: name,
-                        exclusiveToUser: user.id,
-                        parentId: user.id,
-                        transform: {
-                            local: {
-                                position: kitPos,
-                                rotation: kitRotation,
-                                scale: kitScale
+                if (this.attachments.has(user)) {
+                    const attachment = this.attachments.get(user);
+                    if (attachment.grabbable) {
+                        this.audioWrist.destroy();
+                        attachment.grabbable = false;
+                    }
+                    else {
+                        attachment.grabbable = true;
+                        return MRE.Actor.CreateFromLibrary(this.context, {
+                            resourceId: artifactID,
+                            actor: {
+                                name: name,
+                                exclusiveToUser: user.id,
+                                parentId: user.id,
+                                transform: {
+                                    local: {
+                                        position: kitPos,
+                                        rotation: kitRotation,
+                                        scale: kitScale
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else {
+                    this.buttonAlreadyClicked = true;
+                    return MRE.Actor.CreateFromLibrary(this.context, {
+                        resourceId: artifactID,
+                        actor: {
+                            name: name,
+                            parentId: user.id,
+                            transform: {
+                                local: {
+                                    position: kitPos,
+                                    rotation: kitRotation,
+                                    scale: kitScale
+                                }
                             }
                         }
-                    }
-                });
-            }
-            else {
-                this.buttonAlreadyClicked = true;
-                return MRE.Actor.CreateFromLibrary(this.context, {
-                    resourceId: artifactID,
-                    actor: {
-                        name: name,
-                        parentId: user.id,
-                        transform: {
-                            local: {
-                                position: kitPos,
-                                rotation: kitRotation,
-                                scale: kitScale
-                            }
-                        }
-                    }
-                });
+                    });
+                }
             }
         }
     }

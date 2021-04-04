@@ -16,6 +16,7 @@ export default class HelloWorld {
     private wristAlreadyclicked;
     private audioButton;
     private audioMain;
+    private audioWrist;
     constructor(context: MRE.Context, params: MRE.ParameterSet);
     /**
      * Once the context is "started", initialize the app.

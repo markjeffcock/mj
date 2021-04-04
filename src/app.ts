@@ -19,9 +19,9 @@ export default class HelloWorld {
 	//==========================
 	// Declare a syncfix attribute to handle the synchronization fixes.
 	// In this case, syncfix will call the synchronization functions
-	// no more than once every 5000 ms (5 sec).
+	// no more than once every 3000 ms (3 sec).
 	//==========================
-	private syncfix = new UserSyncFix(5000);
+	private syncfix = new UserSyncFix(3000);
 
 	//====================
 	// Track which attachments belongs to which user

@@ -225,7 +225,6 @@ class HelloWorld {
             }
         }
     }
-    //}
     //==========================
     // Synchronization function for attachments
     // Need to detach and reattach every attachment

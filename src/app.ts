@@ -214,11 +214,11 @@ export default class HelloWorld {
 			if (name === "AudioWrist") {
 				if (this.attachments.has(user)) {
 					const attachment = this.attachments.get(user);
-						if (attachment.grabbable) {
-							this.audioWrist.destroy();
-							attachment.grabbable = false;
-							console.log(`debug 2`);
-						}	else {
+					if (attachment.grabbable) {
+						this.audioWrist.destroy();
+						attachment.grabbable = false;
+						console.log(`debug 2`);
+					}	else {
 						attachment.grabbable = true;
 						console.log(`debug 3`);
 						return MRE.Actor.CreateFromLibrary(this.context, {
@@ -260,7 +260,6 @@ export default class HelloWorld {
 	}
 
 
-	//}
 	//==========================
 	// Synchronization function for attachments
 	// Need to detach and reattach every attachment

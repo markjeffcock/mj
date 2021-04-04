@@ -34,8 +34,8 @@ export default class HelloWorld {
 	// 
 	// 
 	// e) off button for wrist button (delay)
-	// f) document how to use in Galleries
-	// g) Write many bumfs audio
+	// f) bug in Galleries?
+	// g) Write last bumfs audio
 	// h) Adopt Dargon Quaternion solution
 	//====================
 	private attachments = new Map<MRE.User, MRE.Actor>();
@@ -127,8 +127,10 @@ export default class HelloWorld {
 					actor: {
 						attachment: {
 							attachPoint: 'left-hand',
+							
 							userId: user.id
 						},
+						exclusiveToUser: user.id,
 						transform: {
 							local: {
 								position: wristPos,
@@ -279,20 +281,20 @@ export default class HelloWorld {
 			//	}));
 				});
 		
-			console.log(`${user.id} in sychronize Attachments reset main`);
+			//console.log(`${user.id} in sychronize Attachments reset main`);
 			// Reset the main item as a button (seemed to only work 50% of time)
-			const audioPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
-			const audioScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
-			const audioRotation: MRE.Quaternion =
-				MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
+			//const audioPos: MRE.Vector3 = new MRE.Vector3(0, 0, 0);
+			//const audioScale: MRE.Vector3 = new MRE.Vector3(1, 1, 1);
+			//const audioRotation: MRE.Quaternion =
+			//	MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
 			// can this work without promise ??
 			//this.audioButton.created().then(() =>
-				this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
+			//	this.audioButton.setBehavior(MRE.ButtonBehavior).onClick((user) => {
 					//uses the parameter ?art=nnn where nnn is an audio item in an Altspace kit
-					this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`,
-						audioPos, audioScale, audioRotation)
+			//		this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`,
+			//			audioPos, audioScale, audioRotation)
 			//	}));
-				});
+			//	});
 		}
 	}
 

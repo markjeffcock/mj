@@ -203,9 +203,10 @@ export default class HelloWorld {
 		kitScale: MRE.Vector3, kitRotation: MRE.Quaternion): MRE.Actor {
 		console.log(`${artifactID} passed`);
 		console.log(`${kitPos} position passed`);
-		// If already clicked destory instantiated audio
+		// If already clicked destroy instantiated audio
 		if (this.buttonAlreadyClicked) {
 			this.audioMain.destroy();
+			console.log(`debug 1`);
 			this.buttonAlreadyClicked = false;
 		}	else {
 			// if selected from wrist, audio exclusive to the user.
@@ -216,8 +217,10 @@ export default class HelloWorld {
 						if (attachment.grabbable) {
 							this.audioWrist.destroy();
 							attachment.grabbable = false;
+							console.log(`debug 2`);
 						}	else {
 						attachment.grabbable = true;
+						console.log(`debug 3`);
 						return MRE.Actor.CreateFromLibrary(this.context, {
 							resourceId: artifactID,
 							actor: {
@@ -236,6 +239,7 @@ export default class HelloWorld {
 				}
 			} else	{
 				this.buttonAlreadyClicked= true;
+				console.log(`debug 4`);
 				return MRE.Actor.CreateFromLibrary(this.context, {
 					resourceId: artifactID,
 					actor: {

@@ -27,17 +27,15 @@ class HelloWorld {
         //==========================
         // Declare a syncfix attribute to handle the synchronization fixes.
         // In this case, syncfix will call the synchronization functions
-        // no more than once every 5000 ms (5 sec).
+        // no more than once every 3000 ms (3 sec).
         //==========================
-        this.syncfix = new sync_fix_1.UserSyncFix(5000);
+        this.syncfix = new sync_fix_1.UserSyncFix(3000);
         //====================
         // Track which attachments belongs to which user
         // NOTE: The MRE.Guid will be the ID of the user.  Maps are more efficient with Guids for keys
         // than they would be with MRE.Users.
         //
         // Things to do:
-        // 
-        // b) [bug] wrist button for 2nd user
         // 
         // 
         // e) off button for wrist button (delay)
@@ -120,6 +118,8 @@ class HelloWorld {
                     }
                 }
             });
+            // use apperaance as a proxy for wristbutton already clicked
+            attachment.grabbable = false;
             //====================
             // Associate the attachment with the user in the 'attachments' map.
             //====================

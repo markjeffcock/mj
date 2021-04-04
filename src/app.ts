@@ -29,8 +29,7 @@ export default class HelloWorld {
 	// than they would be with MRE.Users.
 	//
 	// Things to do:
-	// 
-	// b) [bug] wrist button for 2nd user
+
 	// 
 	// 
 	// e) off button for wrist button (delay)
@@ -140,6 +139,9 @@ export default class HelloWorld {
 					}
 				}
 			);
+
+			// use apperaance as a proxy for wristbutton already clicked
+			attachment.grabbable = false;
 
 			//====================
 			// Associate the attachment with the user in the 'attachments' map.

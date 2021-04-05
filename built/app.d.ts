@@ -12,6 +12,7 @@ export default class Bumf {
     private assets;
     private syncfix;
     private attachments;
+    private wattachments;
     private buttonAlreadyClicked;
     private wristAlreadyclicked;
     private audioButton;

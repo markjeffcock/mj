@@ -38,6 +38,8 @@ export default class Bumf {
 	// h) Adopt Dargon Quaternion solution
 	//====================
 	private attachments = new Map<MRE.User, MRE.Actor>();
+	// 2nd map to ensure destroy of correct wrist audio
+	private wattachments = new Map<MRE.User, MRE.Actor>();
 	private buttonAlreadyClicked = false;
 	private wristAlreadyclicked = false;
 
@@ -166,7 +168,11 @@ export default class Bumf {
 					console.log(`clicked`);
 					//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
 					this.audioWrist = this.createKit("AudioWrist", user, `artifact:${this.params.item}`,
-						attachPos, attachScale, attachRotation)
+						attachPos, attachScale, attachRotation);
+					//====================
+					// Associate the wrist audio with the user in the 'wattachments' map.
+					//====================
+					this.wattachments.set(user, this.audioWrist);
 				}));
 		}
 
@@ -195,6 +201,20 @@ export default class Bumf {
 			// Remove the attachment from the 'attachments' map.
 			this.attachments.delete(user);
 		}
+
+		// Similarly see if the user has any wrist audio wattachments.
+		if (this.wattachments.has(user)) {
+			const wattachment = this.wattachments.get(user);
+
+			// Detach the Actor from the user
+			wattachment.detach();
+
+			// Destroy the Actor.
+			wattachment.destroy();
+
+			// Remove the attachment from the 'wattachments' map.
+			this.wattachments.delete(user);
+		}
 	}
 	/**
 	 * Create kit function called to instantiate the audio upon a button input
@@ -215,7 +235,15 @@ export default class Bumf {
 				if (this.attachments.has(user)) {
 					const attachment = this.attachments.get(user);
 					if (attachment.grabbable) {
-						this.audioWrist.destroy();
+						// select correct wrist attachment to destroy
+						if (this.wattachments.has(user)) {
+							const wattachment = this.wattachments.get(user);
+							wattachment.detach();
+							wattachment.destroy();
+							// Remove the attachment from the 'wattachments' map.
+							this.wattachments.delete(user);
+						}
+
 						attachment.grabbable = false;
 						console.log(`debug 2`);
 					}	else {
@@ -289,12 +317,26 @@ export default class Bumf {
 			console.log(`${user.id} in sychronize Attachments`);
 
 			// Set this item as a button (idea: use UserId to pass at this stage?) - can this work without promise
+			// Similarly see if the user has any wrist audio wattachments.
+			if (this.wattachments.has(user)) {
+				const wattachment = this.wattachments.get(user);
+				wattachment.detach();
+				wattachment.destroy();
+				// Remove the attachment from the 'wattachments' map.
+				this.wattachments.delete(user);
+			}
+
+			// and create afresh
 			attachment.created().then(() =>
 				attachment.setBehavior(MRE.ButtonBehavior).onClick((user) => {
 					console.log(`5s click`);
 					//uses the parameter ?art=nnn where nnn is an audio artifact in an Altspace kit
 					this.audioWrist = this.createKit("AudioWrist", user, `artifact:${this.params.item}`,
 						attachPos, attachScale, attachRotation)
+					//====================
+					// Associate the wrist audio with the user in the 'wattachments' map.
+					//====================
+					this.wattachments.set(user, this.audioWrist);
 				}));
 			//	});
 		

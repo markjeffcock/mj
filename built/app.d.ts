@@ -6,7 +6,7 @@ import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 /**
  * The main class of this app. All the logic goes here.
  */
-export default class HelloWorld {
+export default class Bumf {
     private context;
     private params;
     private assets;

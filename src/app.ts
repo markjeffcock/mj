@@ -12,7 +12,7 @@ import { UserSyncFix } from './sync-fix'
 /**
  * The main class of this app. All the logic goes here.
  */
-export default class HelloWorld {
+export default class Bumf {
 	//private kitItem: MRE.Actor = null;
 	private assets: MRE.AssetContainer;
 
@@ -204,7 +204,7 @@ export default class HelloWorld {
 		console.log(`${artifactID} passed`);
 		console.log(`${kitPos} position passed`);
 		// If already clicked destroy instantiated audio
-		if (this.buttonAlreadyClicked) {
+		if (this.buttonAlreadyClicked && name === "AudioName") {
 			this.audioMain.destroy();
 			console.log(`debug 1`);
 			this.buttonAlreadyClicked = false;

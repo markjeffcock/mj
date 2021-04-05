@@ -19,7 +19,7 @@ const sync_fix_1 = require("./sync-fix");
 /**
  * The main class of this app. All the logic goes here.
  */
-class HelloWorld {
+class Bumf {
     // MJ revised constructor to include parameters
     constructor(context, params) {
         this.context = context;
@@ -168,7 +168,7 @@ class HelloWorld {
         console.log(`${artifactID} passed`);
         console.log(`${kitPos} position passed`);
         // If already clicked destroy instantiated audio
-        if (this.buttonAlreadyClicked) {
+        if (this.buttonAlreadyClicked && name === "AudioName") {
             this.audioMain.destroy();
             console.log(`debug 1`);
             this.buttonAlreadyClicked = false;
@@ -267,5 +267,5 @@ class HelloWorld {
         }
     }
 }
-exports.default = HelloWorld;
+exports.default = Bumf;
 //# sourceMappingURL=app.js.map

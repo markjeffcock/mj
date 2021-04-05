@@ -238,7 +238,6 @@ export default class Bumf {
 						// select correct wrist attachment to destroy
 						if (this.wattachments.has(user)) {
 							const wattachment = this.wattachments.get(user);
-							wattachment.detach();
 							wattachment.destroy();
 							// Remove the attachment from the 'wattachments' map.
 							this.wattachments.delete(user);

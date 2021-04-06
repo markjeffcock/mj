@@ -37,9 +37,9 @@ class Bumf {
         //
         // Things to do:
         // 
-        // 
-        // e) off button for wrist button (delay)
-        // f) bug in Galleries?
+        // i) Introduced error where a joining avator switches off all running wristbutton audios
+        // e) off button for wrist button (needs testing)
+        // f) test in Galleries
         // g) Write last bumfs audio
         // h) Adopt Dargon Quaternion solution
         //====================
@@ -169,8 +169,6 @@ class Bumf {
         // Similarly see if the user has any wrist audio wattachments.
         if (this.wattachments.has(user)) {
             const wattachment = this.wattachments.get(user);
-            // Detach the Actor from the user
-            wattachment.detach();
             // Destroy the Actor.
             wattachment.destroy();
             // Remove the attachment from the 'wattachments' map.
@@ -199,7 +197,6 @@ class Bumf {
                         // select correct wrist attachment to destroy
                         if (this.wattachments.has(user)) {
                             const wattachment = this.wattachments.get(user);
-                            wattachment.detach();
                             wattachment.destroy();
                             // Remove the attachment from the 'wattachments' map.
                             this.wattachments.delete(user);
@@ -269,11 +266,10 @@ class Bumf {
             const attachScale = new MRE.Vector3(1, 1, 1);
             const attachRotation = MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
             console.log(`${user.id} in sychronize Attachments`);
-            // Set this item as a button (idea: use UserId to pass at this stage?) - can this work without promise
-            // Similarly see if the user has any wrist audio wattachments.
-            if (this.wattachments.has(user)) {
+            // Set this item as a button (idea: use UserId to pass at this stage?) 
+            // Similarly see if the user has any wrist audio wattachments (and not playing at the moment)
+            if (this.wattachments.has(user) && !attachment.grabbable) {
                 const wattachment = this.wattachments.get(user);
-                wattachment.detach();
                 wattachment.destroy();
                 // Remove the attachment from the 'wattachments' map.
                 this.wattachments.delete(user);
@@ -288,7 +284,6 @@ class Bumf {
                 //====================
                 this.wattachments.set(user, this.audioWrist);
             }));
-            //	});
             console.log(`${user.id} in sychronize Attachments reset main`);
             // Reset the main item as a button (seemed to only work 50% of time)
             const audioPos = new MRE.Vector3(0, 0, 0);
@@ -299,7 +294,6 @@ class Bumf {
                 //uses the parameter ?art=nnn where nnn is an audio item in an Altspace kit
                 this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`, audioPos, audioScale, audioRotation);
             }));
-            //	});
         }
     }
 }

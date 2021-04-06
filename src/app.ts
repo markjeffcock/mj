@@ -31,9 +31,9 @@ export default class Bumf {
 	// Things to do:
 
 	// 
-	// 
-	// e) off button for wrist button (delay)
-	// f) bug in Galleries?
+	// i) Introduced error where a joining avator switches off all running wristbutton audios
+	// e) off button for wrist button (needs testing)
+	// f) test in Galleries
 	// g) Write last bumfs audio
 	// h) Adopt Dargon Quaternion solution
 	//====================
@@ -312,9 +312,9 @@ export default class Bumf {
 				MRE.Quaternion.RotationAxis(MRE.Vector3.Up(), -180.0 * MRE.DegreesToRadians);
 			console.log(`${user.id} in sychronize Attachments`);
 
-			// Set this item as a button (idea: use UserId to pass at this stage?) - can this work without promise
-			// Similarly see if the user has any wrist audio wattachments.
-			if (this.wattachments.has(user)) {
+			// Set this item as a button (idea: use UserId to pass at this stage?) 
+			// Similarly see if the user has any wrist audio wattachments (and not playing at the moment)
+			if (this.wattachments.has(user) && !attachment.grabbable) {
 				const wattachment = this.wattachments.get(user);
 				wattachment.destroy();
 				// Remove the attachment from the 'wattachments' map.
@@ -333,7 +333,6 @@ export default class Bumf {
 					//====================
 					this.wattachments.set(user, this.audioWrist);
 				}));
-			//	});
 		
 			console.log(`${user.id} in sychronize Attachments reset main`);
 			// Reset the main item as a button (seemed to only work 50% of time)
@@ -348,7 +347,6 @@ export default class Bumf {
 					this.audioMain = this.createKit("AudioName", user, `artifact:${this.params.item}`,
 						audioPos, audioScale, audioRotation)
 				}));
-			//	});
 		}
 	}
 
